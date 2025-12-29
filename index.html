@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportTicket - Billetterie Sportive</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">⚽</div>
+                    <span>SportTicket</span>
+                </a>
+                
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html" class="active">Accueil</a></li>
+                    <li><a href="pages/matches.html">Matchs</a></li>
+                    <li><a href="#">Stades</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="pages/login.html" class="btn btn-outline btn-sm">Connexion</a>
+                    <a href="pages/register.html" class="btn btn-primary btn-sm">Inscription</a>
+                </div>
+                
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>VIVEZ L'ÉMOTION DU SPORT EN DIRECT</h1>
+                    <p>Réservez vos billets pour les meilleurs matchs de football. Places garanties, paiement sécurisé, billets électroniques instantanés.</p>
+                    <div class="d-flex gap-2">
+                        <a href="pages/matches.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-ticket-alt"></i> Voir les matchs
+                        </a>
+                        <a href="#features" class="btn btn-outline btn-lg">En savoir plus</a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Matchs par an</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100K+</div>
+                            <div class="stat-label">Billets vendus</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Stades partenaires</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-trophy" style="color: var(--warning); font-size: 2rem;"></i>
+                        <div style="margin-top: 10px;">
+                            <strong>Finale Coupe</strong>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Dans 3 jours</p>
+                        </div>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-check-circle" style="color: var(--success); font-size: 2rem;"></i>
+                        <div style="margin-top: 10px;">
+                            <strong>Réservation confirmée</strong>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Place VIP - A12</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <form class="search-box">
+                <input type="text" class="search-input" placeholder="🔍 Rechercher un match, une équipe...">
+                <select class="search-select">
+                    <option value="">📍 Tous les lieux</option>
+                    <option value="paris">Paris</option>
+                    <option value="marseille">Marseille</option>
+                    <option value="lyon">Lyon</option>
+                    <option value="bordeaux">Bordeaux</option>
+                </select>
+                <select class="search-select">
+                    <option value="">📅 Toutes les dates</option>
+                    <option value="today">Aujourd'hui</option>
+                    <option value="week">Cette semaine</option>
+                    <option value="month">Ce mois</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Featured Matches -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>🔥 MATCHS À LA UNE</h2>
+                <p>Ne manquez pas les rencontres les plus attendues de la saison</p>
+            </div>
+            
+            <div class="matches-grid">
+                <!-- Match Card 1 -->
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-date">📅 15 Jan 2025 - 21:00</span>
+                        <span class="match-status status-available">Disponible</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-logo">🔴</div>
+                            <div class="team-name">PSG</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">OM</div>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Parc des Princes, Paris</span>
+                        </div>
+                        <div class="match-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>1,847 places disponibles</span>
+                        </div>
+                    </div>
+                    <div class="match-footer">
+                        <div class="match-price">À partir de 45€ <span>/ place</span></div>
+                        <a href="pages/match-detail.html" class="btn btn-primary btn-sm">Réserver</a>
+                    </div>
+                </div>
+
+                <!-- Match Card 2 -->
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-date">📅 18 Jan 2025 - 17:00</span>
+                        <span class="match-status status-available">Disponible</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-logo">🟢</div>
+                            <div class="team-name">ASSE</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-logo">🟡</div>
+                            <div class="team-name">FC NANTES</div>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Geoffroy-Guichard, Saint-Étienne</span>
+                        </div>
+                        <div class="match-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>956 places disponibles</span>
+                        </div>
+                    </div>
+                    <div class="match-footer">
+                        <div class="match-price">À partir de 25€ <span>/ place</span></div>
+                        <a href="pages/match-detail.html" class="btn btn-primary btn-sm">Réserver</a>
+                    </div>
+                </div>
+
+                <!-- Match Card 3 -->
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-date">📅 22 Jan 2025 - 20:45</span>
+                        <span class="match-status status-pending">Presque complet</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">OL</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">MONACO</div>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Groupama Stadium, Lyon</span>
+                        </div>
+                        <div class="match-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>124 places disponibles</span>
+                        </div>
+                    </div>
+                    <div class="match-footer">
+                        <div class="match-price">À partir de 35€ <span>/ place</span></div>
+                        <a href="pages/match-detail.html" class="btn btn-primary btn-sm">Réserver</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="pages/matches.html" class="btn btn-outline btn-lg">Voir tous les matchs →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>⭐ POURQUOI NOUS CHOISIR</h2>
+                <p>Une expérience de réservation simple et sécurisée</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎫</div>
+                    <h3>BILLETS INSTANTANÉS</h3>
+                    <p>Recevez vos billets par email immédiatement après votre réservation avec QR code inclus.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>PAIEMENT SÉCURISÉ</h3>
+                    <p>Transactions 100% sécurisées avec les dernières technologies de cryptage.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💺</div>
+                    <h3>CHOIX DE PLACE</h3>
+                    <p>Sélectionnez votre siège exact dans le stade grâce à notre plan interactif.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>100% MOBILE</h3>
+                    <p>Gérez vos billets depuis votre smartphone, partout et à tout moment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: var(--gradient-primary);">
+        <div class="container text-center">
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">VOUS ÊTES ORGANISATEUR ?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">Créez et gérez vos événements sportifs en toute simplicité. Rejoignez notre plateforme dès aujourd'hui.</p>
+            <a href="pages/register.html" class="btn btn-secondary btn-lg">
+                <i class="fas fa-user-plus"></i> Devenir organisateur
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon">⚽</div>
+                        <span>SportTicket</span>
+                    </div>
+                    <p style="color: var(--gray);">La plateforme n°1 pour réserver vos billets de matchs en toute sécurité.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>LIENS RAPIDES</h4>
+                    <ul>
+                        <li><a href="pages/matches.html">Tous les matchs</a></li>
+                        <li><a href="#">Stades</a></li>
+                        <li><a href="#">Équipes</a></li>
+                        <li><a href="#">Calendrier</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>ESPACE MEMBRE</h4>
+                    <ul>
+                        <li><a href="pages/login.html">Connexion</a></li>
+                        <li><a href="pages/register.html">Inscription</a></li>
+                        <li><a href="pages/user-dashboard.html">Mon compte</a></li>
+                        <li><a href="#">Mes billets</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>SUPPORT</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">CGV</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 SportTicket. Tous droits réservés. Projet PHP POO - Plateforme de Billetterie Sportive</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

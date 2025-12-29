@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Organisateur - SportTicket</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">⚽</div>
+                    <span>SportTicket</span>
+                </a>
+                <div class="nav-actions">
+                    <span style="color: var(--gray);">🏟️ FFP Events</span>
+                    <a href="login.html" class="btn btn-outline btn-sm">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><i class="fas fa-chart-line"></i> Tableau de bord</a></li>
+                <li><a href="#"><i class="fas fa-calendar-plus"></i> Créer un match</a></li>
+                <li><a href="#"><i class="fas fa-futbol"></i> Mes matchs</a></li>
+                <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                <li><a href="#"><i class="fas fa-comments"></i> Avis clients</a></li>
+                <li><a href="#"><i class="fas fa-user"></i> Mon profil</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <div class="d-flex justify-between align-center mb-3">
+                <h2>📊 TABLEAU DE BORD ORGANISATEUR</h2>
+                <a href="#" class="btn btn-primary" onclick="document.getElementById('createMatchModal').classList.add('active')">
+                    <i class="fas fa-plus"></i> Créer un match
+                </a>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fas fa-futbol"></i></div>
+                    <div class="stat-card-info">
+                        <h3>8</h3>
+                        <p>Matchs créés</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="stat-card-info">
+                        <h3>4,562</h3>
+                        <p>Billets vendus</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fas fa-euro-sign"></i></div>
+                    <div class="stat-card-info">
+                        <h3>125,480€</h3>
+                        <p>Chiffre d'affaires</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fas fa-star"></i></div>
+                    <div class="stat-card-info">
+                        <h3>4.7/5</h3>
+                        <p>Note moyenne</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Matches -->
+            <div class="table-container mb-3">
+                <div class="table-header">
+                    <h3>🏆 MES MATCHS</h3>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Match</th>
+                            <th>Date</th>
+                            <th>Lieu</th>
+                            <th>Billets vendus</th>
+                            <th>Revenus</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PSG vs OM</strong></td>
+                            <td>15 Jan 2025</td>
+                            <td>Parc des Princes</td>
+                            <td>1,847 / 2,000</td>
+                            <td>85,200€</td>
+                            <td><span class="badge badge-success">Approuvé</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>PSG vs Lyon</strong></td>
+                            <td>28 Jan 2025</td>
+                            <td>Parc des Princes</td>
+                            <td>1,200 / 2,000</td>
+                            <td>52,800€</td>
+                            <td><span class="badge badge-success">Approuvé</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>PSG vs Lille</strong></td>
+                            <td>10 Fév 2025</td>
+                            <td>Parc des Princes</td>
+                            <td>0 / 2,000</td>
+                            <td>0€</td>
+                            <td><span class="badge badge-warning">En attente</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>PSG vs Monaco</strong></td>
+                            <td>05 Déc 2024</td>
+                            <td>Parc des Princes</td>
+                            <td>1,956 / 2,000</td>
+                            <td>92,400€</td>
+                            <td><span class="badge badge-info">Terminé</span></td>
+                            <td class="actions">
+                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Recent Comments -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>💬 DERNIERS AVIS</h3>
+                    <a href="#" class="btn btn-outline btn-sm">Voir tous</a>
+                </div>
+                <div class="comments-section" style="background: transparent; border: none; padding: 0;">
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-user">
+                                <div class="user-avatar">MD</div>
+                                <div class="user-info">
+                                    <h4>Marie Dupont</h4>
+                                    <span>PSG vs Monaco - 05 Déc 2024</span>
+                                </div>
+                            </div>
+                            <div class="comment-rating">★★★★★</div>
+                        </div>
+                        <p class="comment-text">Super ambiance ! Organisation parfaite, j'ai adoré ma place VIP. Je recommande vivement !</p>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-user">
+                                <div class="user-avatar">PL</div>
+                                <div class="user-info">
+                                    <h4>Pierre Laurent</h4>
+                                    <span>PSG vs Monaco - 05 Déc 2024</span>
+                                </div>
+                            </div>
+                            <div class="comment-rating">★★★★☆</div>
+                        </div>
+                        <p class="comment-text">Très bon match, bonne visibilité depuis ma place. Petit bémol sur les files d'attente à l'entrée.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Match Modal -->
+    <div class="modal-overlay" id="createMatchModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>⚽ CRÉER UN MATCH</h3>
+                <button class="modal-close" onclick="document.getElementById('createMatchModal').classList.remove('active')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Équipe domicile</label>
+                            <input type="text" class="form-control" placeholder="Nom de l'équipe">
+                        </div>
+                        <div class="form-group">
+                            <label>Logo équipe 1</label>
+                            <input type="file" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Équipe visiteur</label>
+                            <input type="text" class="form-control" placeholder="Nom de l'équipe">
+                        </div>
+                        <div class="form-group">
+                            <label>Logo équipe 2</label>
+                            <input type="file" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Heure</label>
+                            <input type="time" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Lieu / Stade</label>
+                        <input type="text" class="form-control" placeholder="Nom du stade, ville">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre de places (max 2000)</label>
+                            <input type="number" class="form-control" max="2000" placeholder="2000">
+                        </div>
+                        <div class="form-group">
+                            <label>Durée (minutes)</label>
+                            <input type="number" class="form-control" value="90" readonly>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin: 20px 0 15px; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">💰 CATÉGORIES ET PRIX</h4>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Catégorie 1</label>
+                            <input type="text" class="form-control" value="VIP">
+                        </div>
+                        <div class="form-group">
+                            <label>Prix (€)</label>
+                            <input type="number" class="form-control" placeholder="120">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Catégorie 2</label>
+                            <input type="text" class="form-control" value="Tribune">
+                        </div>
+                        <div class="form-group">
+                            <label>Prix (€)</label>
+                            <input type="number" class="form-control" placeholder="65">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Catégorie 3</label>
+                            <input type="text" class="form-control" value="Pelouse">
+                        </div>
+                        <div class="form-group">
+                            <label>Prix (€)</label>
+                            <input type="number" class="form-control" placeholder="45">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="document.getElementById('createMatchModal').classList.remove('active')">Annuler</button>
+                <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Soumettre</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

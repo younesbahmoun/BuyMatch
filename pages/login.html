@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - SportTicket</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">⚽</div>
+                    <span>SportTicket</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="matches.html">Matchs</a></li>
+                    <li><a href="#">Stades</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Connexion</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Inscription</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <section class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>👋 BON RETOUR</h2>
+                    <p>Connectez-vous pour accéder à votre compte</p>
+                </div>
+                
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="email">Adresse email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="exemple@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group d-flex justify-between align-center">
+                        <label class="form-check">
+                            <input type="checkbox" name="remember">
+                            <span>Se souvenir de moi</span>
+                        </label>
+                        <a href="#" style="color: var(--accent); font-size: 0.9rem;">Mot de passe oublié ?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Pas encore de compte ? <a href="register.html">Créer un compte</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
