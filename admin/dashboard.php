@@ -1,3 +1,14 @@
+<?php
+require_once __DIR__ . "/../config/auth_guard.php";
+$admin_id = requireAdmin();
+// echo "<pre>";
+// print_r($admin_id);
+// echo "</pre>";
+require_once __DIR__ . "/../classes/Admin.php";
+$admin = new Admin();
+// $admin->activerUtilisateur(2);
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

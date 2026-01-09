@@ -1,3 +1,97 @@
+<?php
+require_once __DIR__ . "/../config/auth_guard.php";
+$organisateurId = requireOrganisateur();
+
+require_once __DIR__ . "/../classes/Organisateur.php";
+require_once __DIR__ . "/../config/Database.php";
+$organisateur = new Organisateur();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Equipe
+    $team_home = $_POST["team1Name"];
+    $team_home_short = $_POST["team1Short"];
+    $team_away = $_POST["team2Name"];
+    $team_away_short = $_POST["team2Short"];
+    // $equipeData = [
+    //     "nom" => 
+    // ];
+    // echo "<script>console.log($idEquipeHome)</script>";
+
+    // Date Lieu
+    $matchDate = $_POST["matchDate"];
+    $matchTime = $_POST["matchTime"];
+    $stadiumName = $_POST["stadiumName"];
+    $city = $_POST["city"];
+    $address = $_POST["address"];
+    $totalPlaces = $_POST["totalPlaces"];
+    // $duration = $_POST["duration"]; // 90 min
+    $competition = $_POST["competition"];
+    
+    // Category Prix
+
+    $categoryName1 = $_POST["categoryName1"];
+    $categoryPrix1 = $_POST["categoryPrix1"];
+    $categoryPlaces1 = $_POST["categoryPlaces1"];
+    $categoryDescription1 = $_POST["categoryDescription1"];
+
+    $categoryName2 = $_POST["categoryName2"];
+    $categoryPrix2 = $_POST["categoryPrix2"];
+    $categoryPlaces2 = $_POST["categoryPlaces2"];
+    $categoryDescription2 = $_POST["categoryDescription2"];
+
+    $categoryName3 = $_POST["categoryName3"];
+    $categoryPrix3 = $_POST["categoryPrix3"];
+    $categoryPlaces3 = $_POST["categoryPlaces3"];
+    $categoryDescription3 = $_POST["categoryDescription3"];
+
+    // Début transaction
+    $organisateur->beginTransaction();
+    // Equipe
+    $equipeHomeId =  $organisateur->createEquipe($team_home, "pays", "ville");
+    $equipeAwayId = $organisateur->createEquipe($team_away, "pays", "ville");
+    // Stade
+    $stadeId = $organisateur->createStade($stadiumName, $city, $address, "Maroc", $totalPlaces);
+    // match data
+    $matchData = [
+        'date_match' => $matchDate,
+        'time_match' => $matchTime,
+        'nombre_places_total' => $totalPlaces,
+        'organizer_id' => $organisateurId,
+        'team_home_id' => $equipeHomeId,
+        'team_away_id' => $equipeAwayId,
+        'stade_id' => $stadeId,
+    ];
+    // match
+    $matchId = $organisateur->createMatchs($matchData);
+    // data categories
+    $categoryData1 = [
+        "match_id" => $matchId,
+        "nom" => $categoryName1,
+        "prix" => $categoryPrix1,
+        "nombre_places" => $categoryPlaces1,
+    ];
+    $categoryData2 = [
+        "match_id" => $matchId,
+        "nom" => $categoryName2,
+        "prix" => $categoryPrix2,
+        "nombre_places" => $categoryPlaces2,
+    ];
+    $categoryData3 = [
+        "match_id" => $matchId,
+        "nom" => $categoryName3,
+        "prix" => $categoryPrix3,
+        "nombre_places" => $categoryPlaces3,
+    ];    
+    // category
+    $organisateur->createCategorie($categoryData1);
+    $organisateur->createCategorie($categoryData2);
+    $organisateur->createCategorie($categoryData3);
+    // Fin transaction
+    $organisateur->commit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,6 +99,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un Match - SportTicket</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -29,7 +124,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <ul class="sidebar-menu">
-                <li><a href="organizer-dashboard.html"><i class="fas fa-chart-line"></i> Tableau de bord</a></li>
+                <li><a href="dashboard.php"><i class="fas fa-chart-line"></i> Tableau de bord</a></li>
                 <li><a href="create-match.html" class="active"><i class="fas fa-calendar-plus"></i> Créer un match</a></li>
                 <li><a href="my-matches.html"><i class="fas fa-futbol"></i> Mes matchs</a></li>
                 <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
@@ -43,7 +138,7 @@
         <main class="dashboard-content">
             <div class="d-flex justify-between align-center mb-3">
                 <h2>⚽ CRÉER UN NOUVEAU MATCH</h2>
-                <a href="organizer-dashboard.html" class="btn btn-secondary btn-sm">
+                <a href="dashboard.php" class="btn btn-secondary btn-sm">
                     <i class="fas fa-arrow-left"></i> Retour
                 </a>
             </div>
@@ -56,22 +151,22 @@
 
             <!-- Create Match Form -->
             <div class="table-container">
-                <form id="createMatchForm">
+                <form id="createMatchForm" method="POST">
                     <!-- Step Indicator -->
                     <div class="step-indicator mb-3">
                         <div class="step active" data-step="1">
                             <div class="step-number">1</div>
                             <div class="step-label">Équipes</div>
                         </div>
-                        <div class="step" data-step="2">
+                        <div class="step active" data-step="2">
                             <div class="step-number">2</div>
                             <div class="step-label">Date & Lieu</div>
                         </div>
-                        <div class="step" data-step="3">
+                        <div class="step active" data-step="3">
                             <div class="step-number">3</div>
                             <div class="step-label">Catégories & Prix</div>
                         </div>
-                        <div class="step" data-step="4">
+                        <div class="step active" data-step="4">
                             <div class="step-number">4</div>
                             <div class="step-label">Confirmation</div>
                         </div>
@@ -96,11 +191,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="team1Name">Nom de l'équipe *</label>
-                                    <input type="text" id="team1Name" class="form-control" placeholder="Ex: Paris Saint-Germain" required>
+                                    <input type="text" name="team1Name" id="team1Name" class="form-control" placeholder="Ex: Paris Saint-Germain" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="team1Short">Abréviation</label>
-                                    <input type="text" id="team1Short" class="form-control" placeholder="Ex: PSG" maxlength="5">
+                                    <input type="text" name="team1Short" id="team1Short" class="form-control" placeholder="Ex: PSG" maxlength="5">
                                 </div>
                             </div>
 
@@ -122,62 +217,62 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="team2Name">Nom de l'équipe *</label>
-                                    <input type="text" id="team2Name" class="form-control" placeholder="Ex: Olympique de Marseille" required>
+                                    <input type="text" name="team2Name" id="team2Name" class="form-control" placeholder="Ex: Olympique de Marseille" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="team2Short">Abréviation</label>
-                                    <input type="text" id="team2Short" class="form-control" placeholder="Ex: OM" maxlength="5">
+                                    <input type="text" name="team2Short" id="team2Short" class="form-control" placeholder="Ex: OM" maxlength="5">
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Step 2: Date & Location -->
-                    <div class="form-step" id="step2">
+                    <div class="form-step active" id="step2">
                         <h3 style="margin-bottom: 25px; color: var(--accent);">📅 DATE, HEURE & LIEU</h3>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="matchDate">Date du match *</label>
-                                <input type="date" id="matchDate" class="form-control" required>
+                                <input type="date" name="matchDate" id="matchDate" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="matchTime">Heure de coup d'envoi *</label>
-                                <input type="time" id="matchTime" class="form-control" required>
+                                <input type="time" name="matchTime" id="matchTime" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="stadiumName">Nom du stade *</label>
-                            <input type="text" id="stadiumName" class="form-control" placeholder="Ex: Parc des Princes" required>
+                            <input type="text" name="stadiumName" id="stadiumName" class="form-control" placeholder="Ex: Parc des Princes" required>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="city">Ville *</label>
-                                <input type="text" id="city" class="form-control" placeholder="Ex: Paris" required>
+                                <input type="text" name="city" id="city" class="form-control" placeholder="Ex: Paris" required>
                             </div>
                             <div class="form-group">
                                 <label for="address">Adresse</label>
-                                <input type="text" id="address" class="form-control" placeholder="Ex: 24 Rue du Commandant Guilbaud">
+                                <input type="text" name="address" id="address" class="form-control" placeholder="Ex: 24 Rue du Commandant Guilbaud">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="totalPlaces">Nombre total de places * (max 2000)</label>
-                                <input type="number" id="totalPlaces" class="form-control" min="100" max="2000" value="2000" required>
+                                <input type="number" name="totalPlaces" id="totalPlaces" class="form-control" min="100" max="2000" value="2000" required>
                             </div>
                             <div class="form-group">
                                 <label for="duration">Durée du match (minutes)</label>
-                                <input type="number" id="duration" class="form-control" value="90" readonly>
+                                <input type="number" name="duration" id="duration" class="form-control" value="90" readonly>
                                 <small style="color: var(--gray);">Durée standard de 90 minutes</small>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="competition">Compétition</label>
-                            <select id="competition" class="form-control">
+                            <select name="competition" id="competition" class="form-control">
                                 <option value="">Sélectionner une compétition</option>
                                 <option value="ligue1">Ligue 1</option>
                                 <option value="ligue2">Ligue 2</option>
@@ -192,7 +287,7 @@
                     </div>
 
                     <!-- Step 3: Categories & Prices -->
-                    <div class="form-step" id="step3">
+                    <div class="form-step active" id="step3">
                         <h3 style="margin-bottom: 25px; color: var(--accent);">💰 CATÉGORIES & TARIFICATION</h3>
                         <p style="color: var(--gray); margin-bottom: 25px;">Définissez jusqu'à 3 catégories de places avec leurs prix respectifs.</p>
 
@@ -209,20 +304,20 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Nom de la catégorie *</label>
-                                        <input type="text" class="form-control category-name" value="VIP" required>
+                                        <input type="text" name="categoryName1" class="form-control category-name" value="VIP" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Prix (€) *</label>
-                                        <input type="number" class="form-control category-price" min="1" placeholder="120" required>
+                                        <input type="number" name="categoryPrix1" class="form-control category-price" min="1" placeholder="120" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre de places *</label>
-                                        <input type="number" class="form-control category-places" min="1" placeholder="200" required>
+                                        <input type="number" name="categoryPlaces1" class="form-control category-places" min="1" placeholder="200" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <input type="text" class="form-control category-desc" placeholder="Ex: Accès lounge, sièges premium, restauration incluse">
+                                    <input type="text" name="categoryDescription1" class="form-control category-desc" placeholder="Ex: Accès lounge, sièges premium, restauration incluse">
                                 </div>
                             </div>
 
@@ -239,20 +334,20 @@
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label>Nom de la catégorie</label>
-                                            <input type="text" class="form-control category-name" value="Tribune">
+                                            <input type="text" name="categoryName2" class="form-control category-name" value="Tribune">
                                         </div>
                                         <div class="form-group">
                                             <label>Prix (€)</label>
-                                            <input type="number" class="form-control category-price" min="1" placeholder="65">
+                                            <input type="number" name="categoryPrix2" class="form-control category-price" min="1" placeholder="65">
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre de places</label>
-                                            <input type="number" class="form-control category-places" min="1" placeholder="800">
+                                            <input type="number" name="categoryPlaces2" class="form-control category-places" min="1" placeholder="800">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <input type="text" class="form-control category-desc" placeholder="Ex: Vue dégagée sur le terrain">
+                                        <input type="text" name="categoryDescription2" class="form-control category-desc" placeholder="Ex: Vue dégagée sur le terrain">
                                     </div>
                                 </div>
                             </div>
@@ -270,20 +365,20 @@
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label>Nom de la catégorie</label>
-                                            <input type="text" class="form-control category-name" value="Pelouse">
+                                            <input type="text" name="categoryName3" class="form-control category-name" value="Pelouse">
                                         </div>
                                         <div class="form-group">
                                             <label>Prix (€)</label>
-                                            <input type="number" class="form-control category-price" min="1" placeholder="45">
+                                            <input type="number" name="categoryPrix3" class="form-control category-price" min="1" placeholder="45">
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre de places</label>
-                                            <input type="number" class="form-control category-places" min="1" placeholder="1000">
+                                            <input type="number" name="categoryPlaces3" class="form-control category-places" min="1" placeholder="1000">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <input type="text" class="form-control category-desc" placeholder="Ex: Places économiques">
+                                        <input type="text" name="categoryDescription3" class="form-control category-desc" placeholder="Ex: Places économiques">
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +397,7 @@
                     </div>
 
                     <!-- Step 4: Confirmation -->
-                    <div class="form-step" id="step4">
+                    <div class="form-step active" id="step4">
                         <h3 style="margin-bottom: 25px; color: var(--accent);">✅ CONFIRMATION</h3>
                         <p style="color: var(--gray); margin-bottom: 25px;">Vérifiez les informations avant de soumettre votre demande.</p>
 
@@ -378,7 +473,7 @@
                         <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">
                             <i class="fas fa-arrow-left"></i> Précédent
                         </button>
-                        <button type="button" class="btn btn-primary" id="nextBtn">
+                        <button type="submit" class="btn btn-primary" id="nextBtn">
                             Suivant <i class="fas fa-arrow-right"></i>
                         </button>
                         <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
@@ -414,432 +509,5 @@
             </div>
         </div>
     </div>
-
-    <style>
-        /* Additional styles for this page */
-        .step-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .step-indicator::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: var(--gray);
-            z-index: 0;
-        }
-        
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .step-number {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--secondary);
-            border: 2px solid var(--gray);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 10px;
-            transition: var(--transition);
-        }
-        
-        .step.active .step-number,
-        .step.completed .step-number {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        
-        .step.completed .step-number::after {
-            content: '✓';
-        }
-        
-        .step-label {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-        
-        .step.active .step-label {
-            color: var(--accent);
-            font-weight: 600;
-        }
-        
-        .form-step {
-            display: none;
-        }
-        
-        .form-step.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .teams-input-container {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-        
-        .team-input-card {
-            flex: 1;
-            min-width: 280px;
-            background: var(--dark);
-            border-radius: var(--radius-lg);
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .team-input-card h4 {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--light);
-        }
-        
-        .team-logo-upload {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .logo-preview {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: var(--secondary);
-            border: 3px dashed var(--gray);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: var(--gray);
-            overflow: hidden;
-        }
-        
-        .logo-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .vs-separator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .vs-separator span {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 3rem;
-            color: var(--accent);
-        }
-        
-        .category-card {
-            background: var(--dark);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .category-badge {
-            padding: 8px 20px;
-            border-radius: var(--radius-xl);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .category-badge.vip {
-            background: rgba(233, 69, 96, 0.2);
-            color: var(--accent);
-        }
-        
-        .category-badge.tribune {
-            background: rgba(0, 210, 106, 0.2);
-            color: var(--success);
-        }
-        
-        .category-badge.pelouse {
-            background: rgba(255, 193, 7, 0.2);
-            color: var(--warning);
-        }
-        
-        .category-content {
-            transition: var(--transition);
-        }
-        
-        .category-card.disabled .category-content {
-            opacity: 0.3;
-            pointer-events: none;
-        }
-        
-        .places-summary {
-            background: var(--secondary);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-top: 20px;
-        }
-        
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .summary-row:last-child {
-            border-bottom: none;
-            font-weight: bold;
-            color: var(--accent);
-        }
-        
-        .confirmation-preview {
-            background: var(--dark);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-        }
-        
-        .categories-summary h4 {
-            margin-bottom: 15px;
-            font-family: 'Bebas Neue', cursive;
-        }
-        
-        .form-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        @media (max-width: 768px) {
-            .teams-input-container {
-                flex-direction: column;
-            }
-            
-            .vs-separator {
-                padding: 10px;
-            }
-            
-            .vs-separator span {
-                font-size: 2rem;
-            }
-            
-            .step-label {
-                display: none;
-            }
-        }
-    </style>
-
-    <script>
-        // Multi-step form logic
-        let currentStep = 1;
-        const totalSteps = 4;
-
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const submitBtn = document.getElementById('submitBtn');
-
-        function updateSteps() {
-            // Update step indicators
-            document.querySelectorAll('.step').forEach((step, index) => {
-                step.classList.remove('active', 'completed');
-                if (index + 1 < currentStep) {
-                    step.classList.add('completed');
-                } else if (index + 1 === currentStep) {
-                    step.classList.add('active');
-                }
-            });
-
-            // Update form steps
-            document.querySelectorAll('.form-step').forEach((step, index) => {
-                step.classList.remove('active');
-                if (index + 1 === currentStep) {
-                    step.classList.add('active');
-                }
-            });
-
-            // Update buttons
-            prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-flex';
-            nextBtn.style.display = currentStep === totalSteps ? 'none' : 'inline-flex';
-            submitBtn.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
-
-            // Update preview on step 4
-            if (currentStep === 4) {
-                updatePreview();
-            }
-        }
-
-        nextBtn.addEventListener('click', () => {
-            if (validateStep(currentStep)) {
-                currentStep++;
-                updateSteps();
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            currentStep--;
-            updateSteps();
-        });
-
-        function validateStep(step) {
-            // Basic validation per step
-            if (step === 1) {
-                const team1 = document.getElementById('team1Name').value;
-                const team2 = document.getElementById('team2Name').value;
-                if (!team1 || !team2) {
-                    alert('Veuillez renseigner les noms des deux équipes.');
-                    return false;
-                }
-            } else if (step === 2) {
-                const date = document.getElementById('matchDate').value;
-                const time = document.getElementById('matchTime').value;
-                const stadium = document.getElementById('stadiumName').value;
-                const city = document.getElementById('city').value;
-                if (!date || !time || !stadium || !city) {
-                    alert('Veuillez remplir tous les champs obligatoires.');
-                    return false;
-                }
-            } else if (step === 3) {
-                // Check at least category 1 has values
-                const cat1Price = document.querySelector('[data-category="1"] .category-price').value;
-                const cat1Places = document.querySelector('[data-category="1"] .category-places').value;
-                if (!cat1Price || !cat1Places) {
-                    alert('Veuillez configurer au moins la catégorie 1.');
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        function updatePreview() {
-            // Update preview with form data
-            document.getElementById('previewTeam1').textContent = document.getElementById('team1Name').value || 'Équipe 1';
-            document.getElementById('previewTeam2').textContent = document.getElementById('team2Name').value || 'Équipe 2';
-            
-            const date = document.getElementById('matchDate').value;
-            const time = document.getElementById('matchTime').value;
-            if (date && time) {
-                const dateObj = new Date(date);
-                const options = { day: 'numeric', month: 'short', year: 'numeric' };
-                document.getElementById('previewDate').textContent = `📅 ${dateObj.toLocaleDateString('fr-FR', options)} - ${time}`;
-            }
-            
-            const stadium = document.getElementById('stadiumName').value;
-            const city = document.getElementById('city').value;
-            document.getElementById('previewLocation').textContent = `${stadium}, ${city}`;
-            
-            const totalPlaces = document.getElementById('totalPlaces').value;
-            document.getElementById('previewPlaces').textContent = `${totalPlaces} places`;
-
-            // Categories summary
-            let summaryHtml = '';
-            let totalPlacesSum = 0;
-            let totalRevenue = 0;
-            let minPrice = Infinity;
-
-            document.querySelectorAll('.category-card').forEach(card => {
-                const name = card.querySelector('.category-name').value;
-                const price = parseInt(card.querySelector('.category-price').value) || 0;
-                const places = parseInt(card.querySelector('.category-places').value) || 0;
-                
-                if (places > 0 && price > 0) {
-                    const revenue = price * places;
-                    totalPlacesSum += places;
-                    totalRevenue += revenue;
-                    if (price < minPrice) minPrice = price;
-                    
-                    summaryHtml += `
-                        <tr>
-                            <td>${name}</td>
-                            <td>${places}</td>
-                            <td>${price}€</td>
-                            <td>${revenue.toLocaleString()}€</td>
-                        </tr>
-                    `;
-                }
-            });
-
-            document.getElementById('categoriesSummaryBody').innerHTML = summaryHtml;
-            document.getElementById('totalPlacesSummary').textContent = totalPlacesSum;
-            document.getElementById('totalRevenueSummary').textContent = totalRevenue.toLocaleString() + '€';
-            document.getElementById('previewPrice').textContent = `À partir de ${minPrice === Infinity ? '--' : minPrice}€`;
-        }
-
-        // Logo preview
-        ['team1Logo', 'team2Logo'].forEach((id, index) => {
-            document.getElementById(id).addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById(`logo${index + 1}Preview`).innerHTML = `<img src="${e.target.result}" alt="Logo">`;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-
-        // Category toggle
-        document.querySelectorAll('.category-toggle').forEach(toggle => {
-            toggle.addEventListener('change', function() {
-                const card = this.closest('.category-card');
-                card.classList.toggle('disabled', !this.checked);
-            });
-        });
-
-        // Calculate places
-        document.querySelectorAll('.category-places').forEach(input => {
-            input.addEventListener('input', updatePlacesSummary);
-        });
-
-        function updatePlacesSummary() {
-            let total = 0;
-            document.querySelectorAll('.category-card:not(.disabled) .category-places').forEach(input => {
-                total += parseInt(input.value) || 0;
-            });
-            document.getElementById('configuredPlaces').textContent = total;
-            const maxPlaces = parseInt(document.getElementById('totalPlaces').value) || 2000;
-            document.getElementById('remainingPlaces').textContent = maxPlaces - total;
-        }
-
-        // Form submission
-        document.getElementById('createMatchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (document.getElementById('termsAccept').checked) {
-                document.getElementById('successModal').classList.add('active');
-            } else {
-                alert('Veuillez accepter les conditions générales.');
-            }
-        });
-    </script>
 </body>
 </html>

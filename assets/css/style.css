@@ -1,0 +1,241 @@
+        /* Additional styles for this page */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--gray);
+            z-index: 0;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 2px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+        
+        .step.active .step-number,
+        .step.completed .step-number {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .step.completed .step-number::after {
+            content: '✓';
+        }
+        
+        .step-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .step.active .step-label {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .teams-input-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .team-input-card {
+            flex: 1;
+            min-width: 280px;
+            background: var(--dark);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .team-input-card h4 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .team-logo-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 3px dashed var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--gray);
+            overflow: hidden;
+        }
+        
+        .logo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .vs-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .vs-separator span {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: var(--accent);
+        }
+        
+        .category-card {
+            background: var(--dark);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .category-badge {
+            padding: 8px 20px;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .category-badge.vip {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--accent);
+        }
+        
+        .category-badge.tribune {
+            background: rgba(0, 210, 106, 0.2);
+            color: var(--success);
+        }
+        
+        .category-badge.pelouse {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--warning);
+        }
+        
+        .category-content {
+            transition: var(--transition);
+        }
+        
+        .category-card.disabled .category-content {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .places-summary {
+            background: var(--secondary);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .confirmation-preview {
+            background: var(--dark);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+        }
+        
+        .categories-summary h4 {
+            margin-bottom: 15px;
+            font-family: 'Bebas Neue', cursive;
+        }
+        
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .teams-input-container {
+                flex-direction: column;
+            }
+            
+            .vs-separator {
+                padding: 10px;
+            }
+            
+            .vs-separator span {
+                font-size: 2rem;
+            }
+            
+            .step-label {
+                display: none;
+            }
+        }

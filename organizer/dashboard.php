@@ -1,3 +1,14 @@
+<?php
+require_once __DIR__ . "/../config/auth_guard.php";
+$organisateurId = requireOrganisateur();
+
+require_once __DIR__ . "/../classes/Organisateur.php";
+require_once __DIR__ . "/../config/Database.php";
+$organisateur = new Organisateur();
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -30,7 +41,7 @@
         <aside class="sidebar">
             <ul class="sidebar-menu">
                 <li><a href="#" class="active"><i class="fas fa-chart-line"></i> Tableau de bord</a></li>
-                <li><a href="#"><i class="fas fa-calendar-plus"></i> Créer un match</a></li>
+                <li><a href="create-match.php"><i class="fas fa-calendar-plus"></i> Créer un match</a></li>
                 <li><a href="#"><i class="fas fa-futbol"></i> Mes matchs</a></li>
                 <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
                 <li><a href="#"><i class="fas fa-comments"></i> Avis clients</a></li>
@@ -43,7 +54,8 @@
         <main class="dashboard-content">
             <div class="d-flex justify-between align-center mb-3">
                 <h2>📊 TABLEAU DE BORD ORGANISATEUR</h2>
-                <a href="#" class="btn btn-primary" onclick="document.getElementById('createMatchModal').classList.add('active')">
+                <!-- <a href="#" class="btn btn-primary" onclick="document.getElementById('createMatchModal').classList.add('active')"> -->
+                <a href="create-match.php" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Créer un match
                 </a>
             </div>
@@ -98,6 +110,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <tr>
                             <td><strong>PSG vs OM</strong></td>
                             <td>15 Jan 2025</td>
@@ -188,7 +201,7 @@
     </div>
 
     <!-- Create Match Modal -->
-    <div class="modal-overlay" id="createMatchModal">
+    <!-- <div class="modal-overlay" id="createMatchModal">
         <div class="modal">
             <div class="modal-header">
                 <h3>⚽ CRÉER UN MATCH</h3>
@@ -280,6 +293,6 @@
                 <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Soumettre</button>
             </div>
         </div>
-    </div>
+    </div> -->
 </body>
 </html>

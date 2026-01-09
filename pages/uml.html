@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramme de Classes UML - Plateforme Billetterie Sportive</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        h1 {
+            color: #00d4ff;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0,212,255,0.3);
+        }
+        
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1em;
+        }
+        
+        .diagram-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow-x: auto;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .legend-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .legend-card h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-card h3::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #00d4ff;
+            border-radius: 2px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: #d0d0d0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .legend-item:last-child {
+            border-bottom: none;
+        }
+        
+        .legend-symbol {
+            font-family: monospace;
+            background: rgba(0,212,255,0.1);
+            padding: 4px 10px;
+            border-radius: 5px;
+            margin-right: 15px;
+            color: #00d4ff;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .actor-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        
+        .actor-visitor { background: #4a5568; color: white; }
+        .actor-buyer { background: #3182ce; color: white; }
+        .actor-organizer { background: #38a169; color: white; }
+        .actor-admin { background: #e53e3e; color: white; }
+        
+        .rules-list {
+            list-style: none;
+        }
+        
+        .rules-list li {
+            padding: 8px 0;
+            color: #d0d0d0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .rules-list li::before {
+            content: '✓';
+            color: #38a169;
+            font-weight: bold;
+        }
+        
+        .class-group {
+            margin-bottom: 10px;
+        }
+        
+        .class-group-title {
+            color: #ffd700;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .class-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin: 2px;
+            font-size: 0.85em;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏟️ Diagramme de Classes UML</h1>
+            <p class="subtitle">Plateforme de Billetterie Sportive - PHP POO / MySQL</p>
+        </header>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+classDiagram
+    direction TB
+
+    %% ============================================
+    %% GESTION DES UTILISATEURS (Héritage)
+    %% ============================================
+    
+    class User {
+        &lt;&lt;abstract&gt;&gt;
+        #int user_id
+        #string email
+        #string password_hash
+        #string nom
+        #string prenom
+        #string statut
+        #datetime created_at
+        +seConnecter(email, password) bool
+        +seDeconnecter() void
+        +gererProfil() void
+        +getFullName() string
+        +isActif() bool
+    }
+
+    class Visiteur {
+        +consulterMatchs() List~Match~
+        +filtrerMatchs(lieu, date) List~Match~
+        +voirDetailsMatch(match_id) Match
+        +sInscrire(email, pwd, nom, prenom) User
+    }
+
+    class Acheteur {
+        -List~Order~ historique_commandes
+        +consulterMatchsDisponibles() List~Match~
+        +acheterBillets(match, cat, places) Order
+        +verifierLimiteBillets(match_id) bool
+        +genererTicketPDF(ticket) PDF
+        +consulterHistoriqueBillets() List~Ticket~
+        +laisserAvis(match, rating, comm) Review
+        +recevoirBilletEmail(ticket) void
+    }
+
+    class Organisateur {
+        -List~Match~ matchs_organises
+        +creerDemandeMatch(matchData) Match
+        +definirEquipes(home, away) void
+        +definirCategories(categories) void
+        +consulterStatistiques() Statistics
+        +getBilletsVendus(match_id) int
+        +getChiffreAffaires(match_id) decimal
+        +consulterCommentaires(match_id) List~Review~
+    }
+
+    class Administrateur {
+        +gererUtilisateurs() List~User~
+        +activerUtilisateur(user_id) void
+        +desactiverUtilisateur(user_id) void
+        +validerMatch(match_id) void
+        +refuserMatch(match_id, motif) void
+        +consulterStatistiquesGlobales() GlobalStats
+        +accederCommentaires() List~Review~
+    }
+
+    User <|-- Visiteur
+    User <|-- Acheteur
+    User <|-- Organisateur
+    User <|-- Administrateur
+
+    %% ============================================
+    %% CLASSE ROLE
+    %% ============================================
+    
+    class Role {
+        -int role_id
+        -string nom
+        +getNom() string
+        +setNom(nom) void
+    }
+
+    %% ============================================
+    %% CLASSES MÉTIER
+    %% ============================================
+
+    class Team {
+        -int team_id
+        -string nom
+        -string logo_url
+        +getNom() string
+        +setNom(nom) void
+        +getLogo() string
+        +setLogo(url) void
+    }
+
+    class Venue {
+        -int venue_id
+        -string nom
+        -string ville
+        -string adresse
+        -int capacite
+        +getNom() string
+        +getAdresseComplete() string
+        +getCapacite() int
+        +verifierDisponibilite(date) bool
+    }
+
+    class Match {
+        -int match_id
+        -datetime start_at
+        -int duration_min
+        -string status
+        -datetime approved_at
+        +getDetails() MatchDetails
+        +getEquipes() tuple
+        +getCategories() List~Category~
+        +getPlacesDisponibles() int
+        +isPublie() bool
+        +isPasse() bool
+        +setStatus(status) void
+        +valider(admin) void
+        +refuser(admin, motif) void
+        +calculerChiffreAffaires() decimal
+    }
+
+    class Category {
+        -int category_id
+        -string nom
+        -decimal prix
+        -int quota
+        -int places_vendues
+        +getNom() string
+        +getPrix() decimal
+        +getPlacesRestantes() int
+        +isDisponible() bool
+        +reserverPlace() bool
+    }
+
+    class Order {
+        -int order_id
+        -decimal total_amount
+        -string payment_status
+        -string payment_ref
+        -datetime created_at
+        +calculerTotal() decimal
+        +validerPaiement(ref) void
+        +getTickets() List~Ticket~
+        +getNombreTickets() int
+        +annuler() void
+        +isPaye() bool
+    }
+
+    class Ticket {
+        -int ticket_id
+        -string seat_label
+        -string qr_value
+        -datetime sent_at
+        +genererQRCode() string
+        +genererPDF() PDF
+        +envoyerParEmail(email) void
+        +marquerEnvoye() void
+        +getInfosComplete() TicketInfo
+    }
+
+    class Review {
+        -int review_id
+        -int rating
+        -string commentaire
+        -datetime created_at
+        +getRating() int
+        +getCommentaire() string
+        +setRating(rating) void
+        +setCommentaire(comm) void
+        +isValid() bool
+    }
+
+    %% ============================================
+    %% CLASSES SERVICES
+    %% ============================================
+
+    class PDFGenerator {
+        &lt;&lt;service&gt;&gt;
+        +genererTicketPDF(ticket) PDF
+        +ajouterQRCode(pdf, qr) void
+        +ajouterInfosMatch(pdf, match) void
+    }
+
+    class EmailService {
+        &lt;&lt;service&gt;&gt;
+        +envoyerTicket(email, ticket) bool
+        +envoyerConfirmation(email, order) bool
+        +envoyerNotification(email, msg) bool
+    }
+
+    class QRCodeGenerator {
+        &lt;&lt;service&gt;&gt;
+        +generer(data) string
+        +valider(qr_value) bool
+    }
+
+    %% ============================================
+    %% RELATIONS
+    %% ============================================
+
+    Role "1" --o "*" User : possède
+    Organisateur "1" --o "*" Match : organise
+    Team "1" --o "*" Match : domicile
+    Team "1" --o "*" Match : extérieur
+    Venue "1" --o "*" Match : accueille
+    Administrateur "0..1" --o "*" Match : valide
+    Match "1" *-- "1..3" Category : contient
+    Acheteur "1" --o "*" Order : passe
+    Match "1" --o "*" Order : concerne
+    Order "1" *-- "1..4" Ticket : génère
+    Category "1" --o "*" Ticket : classe
+    Acheteur "1" --o "*" Review : écrit
+    Match "1" --o "*" Review : reçoit
+    Ticket ..> PDFGenerator : utilise
+    Ticket ..> QRCodeGenerator : utilise
+    Ticket ..> EmailService : utilise
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-card">
+                <h3>Acteurs du Système</h3>
+                <div style="padding: 10px 0;">
+                    <span class="actor-badge actor-visitor">👁️ Visiteur</span>
+                    <span class="actor-badge actor-buyer">🎫 Acheteur</span>
+                    <span class="actor-badge actor-organizer">🏟️ Organisateur</span>
+                    <span class="actor-badge actor-admin">🛠️ Administrateur</span>
+                </div>
+                <p style="color: #a0a0a0; margin-top: 10px; font-size: 0.9em;">
+                    Hiérarchie d'héritage basée sur la classe abstraite <code style="color: #00d4ff;">User</code>
+                </p>
+            </div>
+            
+            <div class="legend-card">
+                <h3>Légende des Relations</h3>
+                <div class="legend-item">
+                    <span class="legend-symbol">◁━━</span>
+                    <span>Héritage (extends)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">◆━━</span>
+                    <span>Composition (cycle de vie lié)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">◇━━</span>
+                    <span>Agrégation (cycle de vie indépendant)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">┄┄▷</span>
+                    <span>Dépendance (utilise)</span>
+                </div>
+            </div>
+            
+            <div class="legend-card">
+                <h3>Règles Métier Intégrées</h3>
+                <ul class="rules-list">
+                    <li>Maximum <strong>4 billets</strong> par match par utilisateur</li>
+                    <li>Maximum <strong>3 catégories</strong> par match</li>
+                    <li>Validation admin requise avant publication</li>
+                    <li>Avis uniquement après la fin du match</li>
+                    <li>Capacité maximale: <strong>2000 places</strong></li>
+                    <li>Durée standard: <strong>90 minutes</strong></li>
+                </ul>
+            </div>
+            
+            <div class="legend-card">
+                <h3>Classes par Catégorie</h3>
+                <div class="class-group">
+                    <div class="class-group-title">👤 Utilisateurs</div>
+                    <span class="class-tag">User</span>
+                    <span class="class-tag">Visiteur</span>
+                    <span class="class-tag">Acheteur</span>
+                    <span class="class-tag">Organisateur</span>
+                    <span class="class-tag">Administrateur</span>
+                    <span class="class-tag">Role</span>
+                </div>
+                <div class="class-group">
+                    <div class="class-group-title">⚽ Événements</div>
+                    <span class="class-tag">Match</span>
+                    <span class="class-tag">Team</span>
+                    <span class="class-tag">Venue</span>
+                    <span class="class-tag">Category</span>
+                </div>
+                <div class="class-group">
+                    <div class="class-group-title">🎟️ Billetterie</div>
+                    <span class="class-tag">Order</span>
+                    <span class="class-tag">Ticket</span>
+                    <span class="class-tag">Review</span>
+                </div>
+                <div class="class-group">
+                    <div class="class-group-title">⚙️ Services</div>
+                    <span class="class-tag">PDFGenerator</span>
+                    <span class="class-tag">EmailService</span>
+                    <span class="class-tag">QRCodeGenerator</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#3182ce',
+                primaryTextColor: '#1a202c',
+                primaryBorderColor: '#2b6cb0',
+                lineColor: '#4a5568',
+                secondaryColor: '#edf2f7',
+                tertiaryColor: '#f7fafc'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            },
+            classDiagram: {
+                useMaxWidth: true
+            }
+        });
+    </script>
+</body>
+</html>

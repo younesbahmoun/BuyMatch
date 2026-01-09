@@ -1,0 +1,145 @@
+<?php
+// session_start();
+// require_once __DIR__ . "/../config/Database.php";
+// require_once __DIR__ . "/../classes/User.php";
+// require_once __DIR__ . "/../classes/Acheteur.php";
+// require_once __DIR__ . "/../classes/Organisateur.php";
+
+// if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    
+//     // Step 1: Get form data
+//     $nom = trim($_POST["lastname"]);
+//     $prenom = trim($_POST["firstname"]);
+//     $email = trim($_POST["email"]);
+//     $password = $_POST["password"];
+//     $password_confirm = $_POST["password_confirm"];
+//     $role = $_POST["role"];
+//     // echo $role;
+//     // echo $password;
+//     echo "<pre>";
+//     print_r($role);
+//     echo "</pre>";
+// }
+
+// if (!isset($role)) {
+//     echo $role;
+// }
+
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - SportTicket</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">⚽</div>
+                    <span>SportTicket</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="matches.html">Matchs</a></li>
+                    <li><a href="#">Stades</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Connexion</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Inscription</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Register Form -->
+    <section class="auth-page">
+        <div class="auth-container" style="max-width: 550px;">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>🎉 REJOIGNEZ-NOUS</h2>
+                    <p>Créez votre compte pour réserver vos billets</p>
+                </div>
+                
+                <!-- Role Selection -->
+                <div class="role-selector">
+                    <div class="role-option active" data-role="user">
+                        <i class="fas fa-user"></i>
+                        <div>Acheteur</div>
+                    </div>
+                    <div class="role-option" data-role="organizer">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div>Organisateur</div>
+                    </div>
+                </div>
+                
+                <form method="POST">
+                    <input type="hidden" name="role" id="roleInput" value="user">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstname">Prénom</label>
+                            <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Jean" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Nom</label>
+                            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Dupont" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Adresse email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="exemple@email.com" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirm">Confirmer</label>
+                            <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-check">
+                            <input type="checkbox" name="terms" required>
+                            <span>J'accepte les <a href="#" style="color: var(--accent);">conditions générales</a> et la <a href="#" style="color: var(--accent);">politique de confidentialité</a></span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Créer mon compte
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <script src="../js/main.js"></script> -->
+    <script>
+        // Role selector
+        document.querySelectorAll('.role-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.role-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('roleInput').value = this.dataset.role;
+            });
+        });
+    </script>
+</body>
+</html>
